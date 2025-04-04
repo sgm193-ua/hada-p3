@@ -260,7 +260,7 @@ namespace library
             {
                 string query = "SELECT TOP 1 name, code, amount, price, category, creationDate FROM Products WHERE id > (SELECT id FROM Products WHERE code = @code) ORDER BY id ASC";
                 SqlCommand sqlComando = new SqlCommand(query, conexionBD);
-                sqlComando.Parameters.AddWithValue("@code", en.code);
+                sqlComando.Parameters.AddWithValue("@code", en.Code);
 
                 try
                 {
