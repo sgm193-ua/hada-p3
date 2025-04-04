@@ -69,67 +69,67 @@ namespace proWeb
         protected global::System.Web.UI.WebControls.TextBox textDate;
 
         /// <summary>
-        /// Control buttom_Leer.
+        /// Control botonCrear.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button buttom_Leer;
+        protected global::System.Web.UI.WebControls.Button botonCrear;
 
         /// <summary>
-        /// Control buttom_Primero.
+        /// Control botonActualizar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button buttom_Primero;
+        protected global::System.Web.UI.WebControls.Button botonActualizar;
 
         /// <summary>
-        /// Control buttom_Anterior.
+        /// Control botonBorrar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button buttom_Anterior;
+        protected global::System.Web.UI.WebControls.Button botonBorrar;
 
         /// <summary>
-        /// Control buttom_Siguiente.
+        /// Control botonLeer.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button buttom_Siguiente;
+        protected global::System.Web.UI.WebControls.Button botonLeer;
 
         /// <summary>
-        /// Control buttom_Crear.
+        /// Control botonLeer_Primero.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button buttom_Crear;
+        protected global::System.Web.UI.WebControls.Button botonLeer_Primero;
 
         /// <summary>
-        /// Control buttom_Actualizar.
+        /// Control botonLeer_Anterior.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button buttom_Actualizar;
+        protected global::System.Web.UI.WebControls.Button botonLeer_Anterior;
 
         /// <summary>
-        /// Control buttom_Borrar.
+        /// Control botonLeer_Siguiente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button buttom_Borrar;
+        protected global::System.Web.UI.WebControls.Button botonLeer_Siguiente;
 
         /// <summary>
         /// Control mensaje.

@@ -38,13 +38,13 @@
 <br/>
 <br/>
 
-    <asp:Button Text="Leer" OnClick="onLeer" ID="buttom_Leer" runat="server" />
-    <asp:Button Text="Leer Primero" OnClick="onPrimero" ID="buttom_Primero" runat="server" />
-    <asp:Button Text="Leer Anterior" OnClick="onAnterior" ID="buttom_Anterior" runat="server" />
-    <asp:Button Text="Leer Siguiente" OnClick="onSiguiente" ID="buttom_Siguiente" runat="server" />
-    <asp:Button Text="Crear" OnClick="onCrear" ID="buttom_Crear" runat="server" />
-    <asp:Button Text="Actualizar" OnClick="onActualizar" ID="buttom_Actualizar" runat="server" />
-    <asp:Button Text="Borrar" OnClick="onBorrar" ID="buttom_Borrar" runat="server" />
+    <asp:Button Text="Create" OnClick="onCreate" ID="botonCrear" runat="server" />
+    <asp:Button Text="Update" OnClick="onUpdate" ID="botonActualizar" runat="server" />
+    <asp:Button Text="Delete" OnClick="onDelete" ID="botonBorrar" runat="server" />
+    <asp:Button Text="Read" OnClick="onRead" ID="botonLeer" runat="server" />
+    <asp:Button Text="Read First" OnClick="onReadfirst" ID="botonLeer_Primero" runat="server" />
+    <asp:Button Text="Read Prev" OnClick="onReadPrev" ID="botonLeer_Anterior" runat="server" />
+    <asp:Button Text="Read Next" OnClick="onReadNext" ID="botonLeer_Siguiente" runat="server" />
     
     <asp:Label ID="mensaje" runat="server" ForeColor="Red"></asp:Label>
 
