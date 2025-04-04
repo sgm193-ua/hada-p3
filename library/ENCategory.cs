@@ -13,13 +13,13 @@ namespace library
         private string _name;
 
         // Propiedades públicas con validación
-        public int Id
+        public int id
         {
             get { return _id; }
             set { _id = value >= 0 ? value : 0; }  // Asegura que el ID no sea negativo
         }
 
-        public string Name
+        public string name
         {
             get { return _name; }
             set { _name = !string.IsNullOrWhiteSpace(value) ? value : "Nombre Desconocido"; }  // Asigna un valor por defecto si el nombre es nulo o vacío
@@ -28,14 +28,14 @@ namespace library
         // Constructor por defecto, crea una categoría con nombre vacío
         public ENCategory()
         {
-            Name = string.Empty;
+            name = string.Empty;
         }
 
         // Constructor parametrizado, crea una categoría con los valores proporcionados
-        public ENCategory(int id, string name)
+        public ENCategory(int Id, string Name)
         {
-            Id = id;
-            Name = name;
+            id = Id;
+            name = Name;
         }
 
         // Métodos para la base de datos

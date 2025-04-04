@@ -1,51 +1,63 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="proWeb.Default" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-<h2>Products management</h2>
-    <label>Code </label> <asp:TextBox ID="textCode" runat="server"> </asp:TextBox>
+    <h1>Products management</h1>
+    <div>
+        <label>Code</label>&nbsp&nbsp
+        <asp:TextBox ID="textCode" runat="server" Width="225px" />
+    </div>
+    <br />
 
-<br />
-<br />
-    <label>Name </label>
-    <asp:TextBox ID="textName" runat="server"> </asp:TextBox>
+    <div>
+         <label>Name</label>&nbsp&nbsp
+         <asp:TextBox ID="textName" runat="server" Width="225px" />
+    </div>
 
-<br />
-<br />
-    <label>Amount </label> 
-    <asp:TextBox ID="textAmount" runat="server"> </asp:TextBox>
+    <br />
 
-<br />
-<br />
-    <label>Categorys </label> 
-        <asp:DropDownList ID="ddlCategory" runat="server"> 
-        <asp:ListItem>Computing</asp:ListItem> 
-        <asp:ListItem>Telephony</asp:ListItem> 
-        <asp:ListItem>Gaming</asp:ListItem> 
-        <asp:ListItem>Home appliances</asp:ListItem> 
-        </asp:DropDownList>
+    <div>
+         <label>Amount</label>&nbsp&nbsp
+         <asp:TextBox ID="textAmount" runat="server" Width="95px" />
+    </div>
 
-<br />
-<br />
-    <label>Price </label> 
-    <asp:TextBox ID="textPrice" runat="server"> </asp:TextBox>
+    <br />
 
-<br />
-<br />
-    <label>Creation Date </label> 
-    <asp:TextBox ID="textDate" runat="server"> </asp:TextBox>
+    <div>
+         <label>Category</label>&nbsp&nbsp
+         <asp:DropDownList ID="textCategory" runat="server">
+         </asp:DropDownList>
+    </div>
 
-<br/>
-<br/>
+    <br />
 
-    <asp:Button ID="botonCrear" runat="server" Text="Create" OnClick="onCreate"  />
-    <asp:Button ID="botonActualizar" runat="server" Text="Update" OnClick="onUpdate" />
-    <asp:Button ID="botonBorrar" runat="server" Text="Delete" OnClick="onDelete"  />
-    <asp:Button ID="botonLeer" runat="server" Text="Read" OnClick="onRead" />
-    <asp:Button ID="botonLeer_Primero" runat="server" Text="Read First" OnClick="onReadfirst"  />
-    <asp:Button ID="botonLeer_Anterior" runat="server" Text="Read Prev" OnClick="onReadPrev" />
-    <asp:Button ID="botonLeer_Siguiente" runat="server" Text="Read Next" OnClick="onReadNext" />
-    
-    <asp:Label ID="mensaje" runat="server" ForeColor="Red"></asp:Label>
+    <div>
+         <label>Price</label>&nbsp&nbsp
+         <asp:TextBox ID="textPrice" runat="server" Width="95px" />
+    </div>
+
+    <br />
+
+    <div>
+         <label>Creation Date</label>&nbsp&nbsp
+         <asp:TextBox ID="textCreationDate" runat="server" Width="165px" />
+    </div>
+
+    <br />
+
+    <div>
+        <asp:Button ID="boton_crear" runat="server" Text="Create" OnClick="CreateProduct" />
+        <asp:Button ID="boton_actualizar" runat="server" Text="Update" OnClick="Update" />
+        <asp:Button ID="boton_borrar" runat="server" Text="Delete" OnClick="Delete" />
+        <asp:Button ID="boton_leer" runat="server" Text="Read" OnClick="Read" />
+        <asp:Button ID="boton_leer_prim" runat="server" Text="Read First" OnClick="ReadFirst" />
+        <asp:Button ID="boton_leer_ant" runat="server" Text="Read Prev" OnClick="ReadPrev" />
+        <asp:Button ID="boton_leer_siguiente" runat="server" Text="Read Next" OnClick="ReadNextProduct" />
+
+        <br /><br />
+        <asp:Label ID="mensaje" runat="server" ForeColor="Red"></asp:Label>
+       
+    </div>
 
 </asp:Content>

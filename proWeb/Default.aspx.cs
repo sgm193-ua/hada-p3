@@ -25,125 +25,111 @@ namespace proWeb
         {
             if (!IsPostBack)
             {
-                CADCategory cadCategory = new CADCategory();
-
-                List<ENCategory> categorias = cadCategory.ReadAll();
-
-                ddlCategory.DataSource = categorias;
-
-                ddlCategory.DataTextField = "name";
-                ddlCategory.DataValueField = "id";
-
-                ddlCategory.DataBind();
+                CargarCategorias();
             }
         }
 
-
-        private bool CheckeoDatos(out string errorMsg)
+        private void CargarCategorias()
         {
-            errorMsg = null;
-            //checkeo para code
+            CADCategory cadCategory = new CADCategory();
+            List<ENCategory> listaCategorias = cadCategory.ReadAll();
+            textCategory.DataSource = listaCategorias;
+            textCategory.DataTextField = "name";
+            textCategory.DataValueField = "id";
+            textCategory.DataBind();
+        }
+
+
+        private bool Validate(out string error)
+        {
+            error = null;
+
             if (string.IsNullOrWhiteSpace(textCode.Text) || textCode.Text.Length > 16)
             {
-                errorMsg = "Code debe tener entre 1 y 16 caracteres.";
+                error = "Code debe tener entre 1 y 16 caracteres.";
                 return false;
             }
-            //checkeo para name
+
             if (textName.Text.Length > 32)
             {
-                errorMsg = "Name no puede superar 32 caracteres.";
+                error = "El nombre no puede exceder los 32 caracteres.";
                 return false;
             }
-            //checkeo para amount
-            int amount;
-            if (!int.TryParse(textAmount.Text, out amount) || amount < 0 || amount > 9999)
+
+            if (!int.TryParse(textAmount.Text, out int amount) || amount < 0 || amount > 9999)
             {
-                errorMsg = "Amount debe ser un entero entre 0 y 9999.";
+                error = "Amount debe ser un número entero entre 0 y 9999";
                 return false;
             }
-            //checkeo para price
-            float price;
-            if (!float.TryParse(textPrice.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out price)
-                || price < 0 || price > 9999.99f)
+
+            if (!float.TryParse(textPrice.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out float price) || price < 0 || price > 9999.99f)
             {
-                errorMsg = "Price debe ser un valor real entre 0 y 9999,99.";
+                error = "Price debe ser un valor real entre 0 y 9999,99.";
                 return false;
             }
-            //checkeo para datetime
-            DateTime creationDate;
-            if (!DateTime.TryParseExact(textDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out creationDate))
+
+            if (!DateTime.TryParseExact(textCreationDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime creationDate))
             {
-                errorMsg = "Creation Date debe seguir el formato dd/MM/yyyy HH:mm:ss.";
+                error = "Creation Date debe seguir el formato dd/MM/yyyy HH:mm:ss.";
                 return false;
             }
-            //checkeo category
-            int category;
-            if (!int.TryParse(ddlCategory.SelectedValue, out category) || category < 0 || category > 3)
+
+            if (!int.TryParse(textCategory.SelectedValue, out int category) || category < 0 || category > 3)
             {
-                errorMsg = "Category inválida (debe ser 0,1,2 o 3).";
+                error = "La categoría seleccionada no es válida (debe ser 0, 1, 2 o 3).";
                 return false;
             }
 
             return true;
         }
 
-        private ENProduct CrearObjetoProducto()
+        private ENProduct CrearObjeto()
         {
-            // Tras validar, convertimos a los tipos correctos
-            int amount = int.Parse(textAmount.Text);
-            float price = float.Parse(textPrice.Text, CultureInfo.InvariantCulture);
-            DateTime creationDate = DateTime.ParseExact(textDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-
-            int category = int.Parse(ddlCategory.SelectedValue);
-
-            // Construimos el ENProduct
-            ENProduct product = new ENProduct(
-                code: textCode.Text,
-                name: textName.Text,
-                amount: amount,
-                price: price,
-                category: category,
-                creationDate: creationDate
+            return new ENProduct
+            (
+                textCode.Text,
+                textName.Text,
+                int.Parse(textAmount.Text),
+                float.Parse(textPrice.Text, CultureInfo.InvariantCulture),
+                int.Parse(textCategory.SelectedValue),
+                DateTime.ParseExact(textCreationDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture)
             );
-            return product;
-        }
-
-        private void MostrarError(Exception ex)
-        {
-            mensaje.ForeColor = System.Drawing.Color.Red; // para errores
-            mensaje.Text = "Error: " + ex.Message;
-            Console.WriteLine("La operación con el producto ha fallado. Error: {0}", ex.Message);
         }
 
 
-        // CREATE
-        protected void btnCreate_Click(object sender, EventArgs e)
+
+        protected void CreateProduct(object sender, EventArgs e)
         {
             try
             {
-                // 1. Validar campos
-                if (!CheckeoDatos(out string errorMsg))
+                string mensajeError = "";
+                if (!Validate(out mensajeError))
                 {
-                    throw new ProductException(errorMsg);  // Lanza una excepción si los datos no son válidos
+                    throw new ProductException("Error de validación: " + mensajeError);
                 }
 
-                // 2. Verificar que NO existe ya un producto con ese Code usando un objeto auxiliar
                 ENProduct checker = new ENProduct();
-                checker.Code = textCode.Text;
+                checker.code = textCode.Text;
 
                 if (checker.existe())
                 {
                     throw new ProductException($"Ya existe un producto con el Code {textCode.Text}.");
                 }
 
-                // 3. Crear objeto con los datos del formulario
-                ENProduct product = CrearObjetoProducto();
+                ENProduct product = new ENProduct
+                (
+                    textCode.Text,
+                    textName.Text,
+                    int.Parse(textAmount.Text),
+                    float.Parse(textPrice.Text),
+                    int.Parse(textCategory.SelectedValue),
+                    DateTime.ParseExact(textCreationDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture)
+                );
 
-                // 4. Llamar a Create   
-                bool success = product.Create();
-                if (success)
+
+                if (product.Create())
                 {
-                    mensaje.ForeColor = System.Drawing.Color.Green; // Añadido
+                    mensaje.ForeColor = System.Drawing.Color.Green;
                     mensaje.Text = "Producto creado con éxito.";
                 }
                 else
@@ -153,260 +139,267 @@ namespace proWeb
             }
             catch (ProductException ex)
             {
-                // Llamamos a MostrarError para manejar el error
-                MostrarError(ex);
+                mensaje.ForeColor = System.Drawing.Color.Red;
+                mensaje.Text = "Error: " + ex.Message;
             }
-            catch (Exception ex)
-            {
-                // Si ocurre otro tipo de error, lo manejamos también
-                MostrarError(ex);
-            }
+   
         }
 
-        // UPDATE 
-        protected void btnUpdate_Click(object sender, EventArgs e)
+
+        protected void Update(object sender, EventArgs e)
         {
             try
             {
-                // 1. Validar campos
-                if (!CheckeoDatos(out string errorMsg))
+                string mens = "";
+
+                if (!Validate(out mens))
                 {
-                    throw new ProductException(errorMsg); // Lanza una excepción si los datos no son válidos
+                    throw new ProductException("Error de validación: " + mensaje);
                 }
 
-                // 2. Comprobar existencia del producto con un objeto auxiliar
-                ENProduct checker = new ENProduct();
-                checker.Code = textCode.Text;
+                ENProduct check = new ENProduct();
+                check.code = textCode.Text;
 
-                if (!checker.existe())
+                if (!check.existe())
                 {
                     throw new ProductException($"No existe un producto con el Code {textCode.Text} para actualizar.");
                 }
 
-                // 3. Crear objeto con los datos actualizados
-                ENProduct product = CrearObjetoProducto();
+                ENProduct product = new ENProduct
+                (
+                    textCode.Text,
+                    textName.Text,
+                    int.Parse(textAmount.Text),
+                    float.Parse(textPrice.Text, CultureInfo.InvariantCulture),
+                    int.Parse(textCategory.SelectedValue),
+                    DateTime.ParseExact(textCreationDate.Text, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture)
+                );
 
-                // 4. Llamar a Update
-                bool success = product.Update();
-                if (success)
+                if (product.Update())
                 {
                     mensaje.ForeColor = System.Drawing.Color.Green;
-                    mensaje.Text = "Producto actualizado con éxito.";
+                    mensaje.Text = "Product updated successfully";
                 }
-
                 else
                 {
-                    throw new ProductException("No se pudo actualizar el producto.");
+                    throw new ProductException("Error al actualizar el producto.");
                 }
-
             }
             catch (ProductException ex)
             {
-                MostrarError(ex);
+                mensaje.ForeColor = System.Drawing.Color.Red;
+                mensaje.Text = "Error: " + ex.Message;
             }
             catch (Exception ex)
             {
-                MostrarError(ex);
+                mensaje.ForeColor = System.Drawing.Color.Red;
+                mensaje.Text = "Error inesperado: " + ex.Message;
             }
         }
 
-        // DELETE
-        protected void btnDelete_Click(object sender, EventArgs e)
+
+        protected void Delete(object sender, EventArgs e)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(textCode.Text))
                 {
-                    throw new ProductException("Debes indicar un Code para borrar.");
+                    throw new ProductException("Por favor, introduce un código para proceder con la eliminación.");
                 }
 
-                ENProduct checker = new ENProduct();
-                checker.Code = textCode.Text;
+                ENProduct comprobar = new ENProduct();
+                comprobar.code = textCode.Text;
 
-                if (!checker.existe())
+                if (!comprobar.existe())
                 {
-                    throw new ProductException($"No existe un producto con el Code {textCode.Text} para borrar.");
+                    throw new ProductException($"No hay ningún producto registrado con el código '{textCode.Text}'.");
                 }
 
                 ENProduct product = new ENProduct();
-                product.Code = textCode.Text;
+                product.code = textCode.Text;
 
-                bool success = product.Delete();
-                if (success)
+                if (product.Delete())
                 {
                     mensaje.ForeColor = System.Drawing.Color.Green;
-                    mensaje.Text = "Producto borrado con éxito.";
+                    mensaje.Text = "El producto se eliminó satisfactoriamente.";
                 }
                 else
                 {
-                    throw new ProductException("No se pudo borrar el producto.");
+                    throw new ProductException("No se pudo completar la eliminación. Intenta de nuevo.");
                 }
             }
             catch (ProductException ex)
             {
-                MostrarError(ex);
+                mensaje.ForeColor = System.Drawing.Color.Red;
+                mensaje.Text = "Atención: " + ex.Message;
             }
-            catch (Exception ex)
-            {
-                MostrarError(ex);
-            }
+            
         }
 
-        // READ 
-        protected void btnRead_Click(object sender, EventArgs e)
+        protected void Read(object sender, EventArgs e)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(textCode.Text))
                 {
-                    throw new ProductException("Debes indicar un Code para leer.");
+                    throw new ProductException("Por favor, ingrese un Code para leer el producto.");
                 }
 
-                ENProduct product = new ENProduct();
-                product.Code = textCode.Text;
-                bool success = product.Read();
+                ENProduct product = new ENProduct
+                (
+                    textCode.Text,
+                    textName.Text,
+                    int.Parse(textAmount.Text),
+                    float.Parse(textPrice.Text),
+                    int.Parse(textCategory.SelectedValue),
+                    DateTime.ParseExact(textCreationDate.Text, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)
+                );
 
-                if (success)
+                if (product.Read())
                 {
-                    textName.Text = product.Name;
-                    textAmount.Text = product.Amount.ToString();
-                    textPrice.Text = product.Price.ToString(CultureInfo.InvariantCulture);
-                    textDate.Text = product.CreationDate.ToString("dd/MM/yyyy HH:mm:ss");
-                    ddlCategory.SelectedValue = product.Category.ToString();
+                    textCode.Text = product.code;
+                    textName.Text = product.name;
+                    textAmount.Text = product.amount.ToString();
+                    textPrice.Text = product.price.ToString();
+                    textCategory.SelectedValue = product.category.ToString();
+                    textCreationDate.Text = product.creationDate.ToString("dd/MM/yyyy HH:mm:ss");
+
                     mensaje.ForeColor = System.Drawing.Color.Green;
-                    mensaje.Text = "Producto leído correctamente.";
+                    mensaje.Text = "Producto cargado exitosamente.";
                 }
                 else
                 {
-                    throw new ProductException($"No se encontró un producto con el Code {textCode.Text}.");
+                    throw new ProductException("No se encontró un producto con el Code ingresado.");
                 }
             }
             catch (ProductException ex)
             {
-                MostrarError(ex);
+                mensaje.ForeColor = System.Drawing.Color.Red;
+                mensaje.Text = "Error: " + ex.Message;
             }
-            catch (Exception ex)
-            {
-                MostrarError(ex);
-            }
+    
         }
 
-        // READ FIRST
-        protected void btnReadFirst_Click(object sender, EventArgs e)
+
+        protected void ReadFirst(object sender, EventArgs e)
         {
             try
             {
-                ENProduct product = new ENProduct();
-                bool success = product.ReadFirst();
+                ENProduct prod = new ENProduct();
 
-                if (success)
+                if (prod.ReadFirst())
                 {
-                    textCode.Text = product.Code;
-                    textName.Text = product.Name;
-                    textAmount.Text = product.Amount.ToString();
-                    textPrice.Text = product.Price.ToString(CultureInfo.InvariantCulture);
-                    textDate.Text = product.CreationDate.ToString("dd/MM/yyyy HH:mm:ss");
-                    ddlCategory.SelectedValue = product.Category.ToString();
+                    textCode.Text = prod.code;
+                    textName.Text = prod.name;
+                    textAmount.Text = prod.amount.ToString();
+                    textPrice.Text = prod.price.ToString();
+                    textCategory.SelectedValue = prod.category.ToString();
+                    textCreationDate.Text = prod.creationDate.ToString("dd/MM/yyyy HH:mm:ss");
+
                     mensaje.ForeColor = System.Drawing.Color.Green;
-                    mensaje.Text = "Primer producto leído correctamente.";
+                    mensaje.Text = "Producto leído exitosamente. Primer producto cargado correctamente.";
                 }
                 else
                 {
-                    throw new ProductException("No hay productos en la BD.");
+                    throw new ProductException("La base de datos está vacía. No se encontró ningún producto.");
                 }
             }
             catch (ProductException ex)
             {
-                MostrarError(ex);
-            }
-            catch (Exception ex)
-            {
-                MostrarError(ex);
+                mensaje.ForeColor = System.Drawing.Color.Red;
+                mensaje.Text = "Error: " + ex.Message;
             }
         }
 
-        // READ PREVIOUS
-        protected void btnReadPrev_Click(object sender, EventArgs e)
+
+        protected void ReadPrev(object sender, EventArgs e)
         {
             try
             {
-                // Necesitamos saber el Code actual para buscar el anterior.
+ 
                 if (string.IsNullOrWhiteSpace(textCode.Text))
                 {
-                    throw new ProductException("Debes indicar el Code actual para leer el anterior.");
+                    throw new ProductException("Es necesario proporcionar un Code actual para leer el producto anterior.");
                 }
 
-                ENProduct product = new ENProduct();
-                product.Code = textCode.Text;
-                bool success = product.ReadPrev();
 
-                if (success)
+                ENProduct prod = new ENProduct
+                (
+                    textCode.Text,
+                    textName.Text,
+                    int.Parse(textAmount.Text),
+                    float.Parse(textPrice.Text),
+                    int.Parse(textCategory.SelectedValue),
+                    DateTime.ParseExact(textCreationDate.Text, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)
+                );
+
+
+                if (prod.ReadPrev())
                 {
-                    textCode.Text = product.Code;
-                    textName.Text = product.Name;
-                    textAmount.Text = product.Amount.ToString();
-                    textPrice.Text = product.Price.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                    textDate.Text = product.CreationDate.ToString("dd/MM/yyyy HH:mm:ss");
-                    ddlCategory.SelectedValue = product.Category.ToString();
+                    textCode.Text = prod.code;
+                    textName.Text = prod.name;
+                    textAmount.Text = prod.amount.ToString();
+                    textPrice.Text = prod.price.ToString();
+                    textCategory.SelectedValue = prod.category.ToString();
+                    textCreationDate.Text = prod.creationDate.ToString("dd/MM/yyyy HH:mm:ss");
+
                     mensaje.ForeColor = System.Drawing.Color.Green;
                     mensaje.Text = "Producto anterior leído correctamente.";
                 }
                 else
                 {
-                    mensaje.Text = "No hay producto anterior al indicado.";
-                    throw new ProductException("No existe producto anterior al Code");
+
+                    throw new ProductException("No existe un producto anterior al indicado.");
                 }
             }
             catch (ProductException ex)
             {
-                MostrarError(ex);
-            }
-            catch (Exception ex)
-            {
-                MostrarError(ex);
+                mensaje.ForeColor = System.Drawing.Color.Red;
+                mensaje.Text = "Error: " + ex.Message;
             }
         }
 
-        // READ NEXT
-        protected void btnReadNext_Click(object sender, EventArgs e)
+        protected void ReadNextProduct(object sender, EventArgs e)
         {
             try
             {
-                // Necesitamos saber el Code actual para buscar el siguiente.
                 if (string.IsNullOrWhiteSpace(textCode.Text))
                 {
-                    throw new ProductException("Debes indicar el Code actual para leer el siguiente.");
+                    throw new ProductException("Es necesario proporcionar un Code actual para leer el siguiente producto.");
                 }
 
-                ENProduct product = new ENProduct();
-                product.Code = textCode.Text;
-                bool success = product.ReadNext();
+                ENProduct prod = new ENProduct
+                (
+                    textCode.Text,
+                    textName.Text,
+                    int.Parse(textAmount.Text),
+                    float.Parse(textPrice.Text),
+                    int.Parse(textCategory.SelectedValue),
+                    DateTime.ParseExact(textCreationDate.Text, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)
+                );
 
-                if (success)
+                if (prod.ReadNext())
                 {
-                    textCode.Text = product.Code;
-                    textName.Text = product.Name;
-                    textAmount.Text = product.Amount.ToString();
-                    textPrice.Text = product.Price.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                    textDate.Text = product.CreationDate.ToString("dd/MM/yyyy HH:mm:ss");
-                    ddlCategory.SelectedValue = product.Category.ToString();
+                    textCode.Text = prod.code;
+                    textName.Text = prod.name;
+                    textAmount.Text = prod.amount.ToString();
+                    textPrice.Text = prod.price.ToString();
+                    textCategory.SelectedValue = prod.category.ToString();
+                    textCreationDate.Text = prod.creationDate.ToString("dd/MM/yyyy HH:mm:ss");
                     mensaje.ForeColor = System.Drawing.Color.Green;
                     mensaje.Text = "Producto siguiente leído correctamente.";
                 }
                 else
                 {
-                    mensaje.Text = "No hay producto siguiente al indicado.";
-                    throw new ProductException("No existe producto siguiente al Code");
+                    throw new ProductException("No existe un producto siguiente al indicado.");
                 }
             }
             catch (ProductException ex)
             {
-                MostrarError(ex);
-            }
-            catch (Exception ex)
-            {
-                MostrarError(ex);
+                mensaje.ForeColor = System.Drawing.Color.Red;
+                mensaje.Text = "Error: " + ex.Message;
             }
         }
+
     }
 }

@@ -15,20 +15,20 @@ namespace library
         private int _category;
         private DateTime _creationDate;
 
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public int Amount  // Cambié 'amount' a 'Amount' para seguir la convención PascalCase
+        public string code { get; set; }
+        public string name { get; set; }
+        public int amount  // Cambié 'amount' a 'Amount' para seguir la convención PascalCase
         {
             get { return _amount; }
             set { _amount = (value >= 0) ? value : 0; } // Evita valores negativos
         }
-        public float Price  // Cambié 'price' a 'Price' para seguir la convención PascalCase
+        public float price  // Cambié 'price' a 'Price' para seguir la convención PascalCase
         {
             get { return _price; }
             set { _price = (value >= 0) ? value : 0; } // Evita valores negativos
         }
-        public int Category { get; set; }
-        public DateTime CreationDate { get; set; }
+        public int category { get; set; }
+        public DateTime creationDate { get; set; }
 
         public ENProduct() { }
 
@@ -49,7 +49,7 @@ namespace library
         public bool ReadFirst() => new CADProduct().ReadFirst(this);
         public bool ReadNext() => new CADProduct().ReadNext(this);
         public bool ReadPrev() => new CADProduct().ReadPrev(this);
-        public bool validCategory() => new CADProduct().CategoryExists(this.Category);
+        public bool validCategory() => new CADProduct().CategoryExists(this.category);
 
         public bool existe() {
             return this.Read();
