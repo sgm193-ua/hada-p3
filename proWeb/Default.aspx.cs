@@ -109,7 +109,7 @@ namespace proWeb
                 }
 
                 ENProduct checker = new ENProduct();
-                checker.code = textCode.Text;
+                checker.Code = textCode.Text;
 
                 if (checker.existe())
                 {
@@ -158,7 +158,7 @@ namespace proWeb
                 }
 
                 ENProduct check = new ENProduct();
-                check.code = textCode.Text;
+                check.Code = textCode.Text;
 
                 if (!check.existe())
                 {
@@ -208,7 +208,7 @@ namespace proWeb
                 }
 
                 ENProduct comprobar = new ENProduct();
-                comprobar.code = textCode.Text;
+                comprobar.Code = textCode.Text;
 
                 if (!comprobar.existe())
                 {
@@ -216,7 +216,7 @@ namespace proWeb
                 }
 
                 ENProduct product = new ENProduct();
-                product.code = textCode.Text;
+                product.Code = textCode.Text;
 
                 if (product.Delete())
                 {
@@ -257,12 +257,12 @@ namespace proWeb
 
                 if (product.Read())
                 {
-                    textCode.Text = product.code;
-                    textName.Text = product.name;
-                    textAmount.Text = product.amount.ToString();
-                    textPrice.Text = product.price.ToString();
-                    textCategory.SelectedValue = product.category.ToString();
-                    textCreationDate.Text = product.creationDate.ToString("dd/MM/yyyy HH:mm:ss");
+                    textCode.Text = product.Code;
+                    textName.Text = product.Name;
+                    textAmount.Text = product.Amount.ToString();
+                    textPrice.Text = product.Price.ToString();
+                    textCategory.SelectedValue = product.Category.ToString();
+                    textCreationDate.Text = product.CreationDate.ToString("dd/MM/yyyy HH:mm:ss");
 
                     mensaje.ForeColor = System.Drawing.Color.Green;
                     mensaje.Text = "Producto cargado exitosamente.";
@@ -289,12 +289,12 @@ namespace proWeb
 
                 if (prod.ReadFirst())
                 {
-                    textCode.Text = prod.code;
-                    textName.Text = prod.name;
-                    textAmount.Text = prod.amount.ToString();
-                    textPrice.Text = prod.price.ToString();
-                    textCategory.SelectedValue = prod.category.ToString();
-                    textCreationDate.Text = prod.creationDate.ToString("dd/MM/yyyy HH:mm:ss");
+                    textCode.Text = prod.Code;
+                    textName.Text = prod.Name;
+                    textAmount.Text = prod.Amount.ToString();
+                    textPrice.Text = prod.Price.ToString();
+                    textCategory.SelectedValue = prod.Category.ToString();
+                    textCreationDate.Text = prod.CreationDate.ToString("dd/MM/yyyy HH:mm:ss");
 
                     mensaje.ForeColor = System.Drawing.Color.Green;
                     mensaje.Text = "Producto leído exitosamente. Primer producto cargado correctamente.";
@@ -336,12 +336,12 @@ namespace proWeb
 
                 if (prod.ReadPrev())
                 {
-                    textCode.Text = prod.code;
-                    textName.Text = prod.name;
-                    textAmount.Text = prod.amount.ToString();
-                    textPrice.Text = prod.price.ToString();
-                    textCategory.SelectedValue = prod.category.ToString();
-                    textCreationDate.Text = prod.creationDate.ToString("dd/MM/yyyy HH:mm:ss");
+                    textCode.Text = prod.Code;
+                    textName.Text = prod.Name;
+                    textAmount.Text = prod.Amount.ToString();
+                    textPrice.Text = prod.Price.ToString();
+                    textCategory.SelectedValue = prod.Category.ToString();
+                    textCreationDate.Text = prod.CreationDate.ToString("dd/MM/yyyy HH:mm:ss");
 
                     mensaje.ForeColor = System.Drawing.Color.Green;
                     mensaje.Text = "Producto anterior leído correctamente.";
@@ -380,12 +380,12 @@ namespace proWeb
 
                 if (prod.ReadNext())
                 {
-                    textCode.Text = prod.code;
-                    textName.Text = prod.name;
-                    textAmount.Text = prod.amount.ToString();
-                    textPrice.Text = prod.price.ToString();
-                    textCategory.SelectedValue = prod.category.ToString();
-                    textCreationDate.Text = prod.creationDate.ToString("dd/MM/yyyy HH:mm:ss");
+                    textCode.Text = prod.Code;
+                    textName.Text = prod.Name;
+                    textAmount.Text = prod.Amount.ToString();
+                    textPrice.Text = prod.Price.ToString();
+                    textCategory.SelectedValue = prod.Category.ToString();
+                    textCreationDate.Text = prod.CreationDate.ToString("dd/MM/yyyy HH:mm:ss");
                     mensaje.ForeColor = System.Drawing.Color.Green;
                     mensaje.Text = "Producto siguiente leído correctamente.";
                 }

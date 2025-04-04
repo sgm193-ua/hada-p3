@@ -21,7 +21,7 @@ namespace library
         public bool CategoryExists(int catId)
         {
             ENCategory category = new ENCategory();
-            category.id = catId;
+            category.Id = catId;
 
             CADCategory dataCategory = new CADCategory();
             return dataCategory.Read(category); // Retorna true si la categoría existe
@@ -44,7 +44,7 @@ namespace library
                     string insertQuery = "INSERT INTO [dbo].[Products] (name, code, amount, price, category, creationDate) " +
                                          "VALUES (@name, @code, @amount, @price, @category, @creationDate)";
 
-                    if (!CategoryExists(en.category))
+                    if (!CategoryExists(en.Category))
                     {
                         Console.WriteLine("Operación fallida. Error: {Categoría Inválida}");
                     }
@@ -53,14 +53,14 @@ namespace library
                         using (SqlCommand command = new SqlCommand(insertQuery, connection))
                         {
                             // Agregamos los valores de forma segura
-                            command.Parameters.AddWithValue("@name", en.name);
-                            command.Parameters.AddWithValue("@code", en.code);
-                            command.Parameters.AddWithValue("@amount", en.amount);
-                            command.Parameters.AddWithValue("@price", en.price);
-                            command.Parameters.AddWithValue("@category", en.category);
+                            command.Parameters.AddWithValue("@name", en.Name);
+                            command.Parameters.AddWithValue("@code", en.Code);
+                            command.Parameters.AddWithValue("@amount", en.Amount);
+                            command.Parameters.AddWithValue("@price", en.Price);
+                            command.Parameters.AddWithValue("@category", en.Category);
 
                             // Asegurar formato correcto para datetime
-                            command.Parameters.AddWithValue("@creationDate", en.creationDate);
+                            command.Parameters.AddWithValue("@creationDate", en.CreationDate);
 
                             command.ExecuteNonQuery();
                             success = true;
@@ -96,12 +96,12 @@ namespace library
                     using (SqlCommand comando = new SqlCommand(actualizar, conexion))
                     {
                         // Agregar los valores de forma segura usando parámetros
-                        comando.Parameters.AddWithValue("@name", en.name);
-                        comando.Parameters.AddWithValue("@code", en.code);
-                        comando.Parameters.AddWithValue("@amount", en.amount);
-                        comando.Parameters.AddWithValue("@price", en.price);
-                        comando.Parameters.AddWithValue("@category", en.category);
-                        comando.Parameters.AddWithValue("@creationDate", en.creationDate);
+                        comando.Parameters.AddWithValue("@name", en.Name);
+                        comando.Parameters.AddWithValue("@code", en.Code);
+                        comando.Parameters.AddWithValue("@amount", en.Amount);
+                        comando.Parameters.AddWithValue("@price", en.Price);
+                        comando.Parameters.AddWithValue("@category", en.Category);
+                        comando.Parameters.AddWithValue("@creationDate", en.CreationDate);
 
                         comando.ExecuteNonQuery();
                         actualizado = true;
@@ -142,7 +142,7 @@ namespace library
                 using (SqlCommand comando = new SqlCommand(eliminar, conexion))
                 {
                     // Usando parámetros para evitar SQL Injection
-                    comando.Parameters.AddWithValue("@code", producto.code);
+                    comando.Parameters.AddWithValue("@code", producto.Code);
 
                     comando.ExecuteNonQuery();
                     eliminado = true;
@@ -182,20 +182,20 @@ namespace library
                 using (SqlCommand comando = new SqlCommand(leerQuery, conexion))
                 {
                     // Usando parámetros para evitar SQL Injection
-                    comando.Parameters.AddWithValue("@code", en.code);
+                    comando.Parameters.AddWithValue("@code", en.Code);
 
                     using (SqlDataReader lector = comando.ExecuteReader())
                     {
                         if (lector.Read())
                         {
-                            if (lector["code"].ToString() == en.code)
+                            if (lector["code"].ToString() == en.Code)
                             {
-                                en.code = lector["code"].ToString();
-                                en.name = lector["name"].ToString();
-                                en.amount = int.Parse(lector["amount"].ToString());
-                                en.price = float.Parse(lector["price"].ToString());
-                                en.category = int.Parse(lector["category"].ToString());
-                                en.creationDate = DateTime.Parse(lector["creationDate"].ToString());
+                                en.Code = lector["code"].ToString();
+                                en.Name = lector["name"].ToString();
+                                en.Amount = int.Parse(lector["amount"].ToString());
+                                en.Price = float.Parse(lector["price"].ToString());
+                                en.Category = int.Parse(lector["category"].ToString());
+                                en.CreationDate = DateTime.Parse(lector["creationDate"].ToString());
 
                                 leidoExitoso = true;
                             }
@@ -235,12 +235,12 @@ namespace library
                     SqlDataReader dataReader = sqlComando.ExecuteReader();
                     if (dataReader.Read())
                     {
-                        en.code = dataReader["code"].ToString();
-                        en.name = dataReader["name"].ToString();
-                        en.amount = Convert.ToInt32(dataReader["amount"]);
-                        en.price = Convert.ToSingle(dataReader["price"]);
-                        en.category = Convert.ToInt32(dataReader["category"]);
-                        en.creationDate = Convert.ToDateTime(dataReader["creationDate"]);
+                        en.Code = dataReader["code"].ToString();
+                        en.Name = dataReader["name"].ToString();
+                        en.Amount = Convert.ToInt32(dataReader["amount"]);
+                        en.Price = Convert.ToSingle(dataReader["price"]);
+                        en.Category = Convert.ToInt32(dataReader["category"]);
+                        en.CreationDate = Convert.ToDateTime(dataReader["creationDate"]);
                         encontradoProducto = true;
                     }
                     dataReader.Close();
@@ -260,7 +260,7 @@ namespace library
             {
                 string query = "SELECT TOP 1 name, code, amount, price, category, creationDate FROM Products WHERE id > (SELECT id FROM Products WHERE code = @code) ORDER BY id ASC";
                 SqlCommand sqlComando = new SqlCommand(query, conexionBD);
-                sqlComando.Parameters.AddWithValue("@code", en.code);
+                sqlComando.Parameters.AddWithValue("@code", en.Code);
 
                 try
                 {
@@ -268,12 +268,12 @@ namespace library
                     SqlDataReader dataReader = sqlComando.ExecuteReader();
                     if (dataReader.Read())
                     {
-                        en.code = dataReader["code"].ToString();
-                        en.name = dataReader["name"].ToString();
-                        en.amount = Convert.ToInt32(dataReader["amount"]);
-                        en.price = Convert.ToSingle(dataReader["price"]);
-                        en.category = Convert.ToInt32(dataReader["category"]);
-                        en.creationDate = Convert.ToDateTime(dataReader["creationDate"]);
+                        en.Code = dataReader["code"].ToString();
+                        en.Name = dataReader["name"].ToString();
+                        en.Amount = Convert.ToInt32(dataReader["amount"]);
+                        en.Price = Convert.ToSingle(dataReader["price"]);
+                        en.Category = Convert.ToInt32(dataReader["category"]);
+                        en.CreationDate = Convert.ToDateTime(dataReader["creationDate"]);
                         productoEncontrado = true;
                     }
                     dataReader.Close();
@@ -309,14 +309,14 @@ namespace library
                     {
                         string codigoActual = lectorDatos["code"].ToString();
 
-                        if (en.code == codigoActual && productoAnterior != null)  // Comprobamos que productoAnterior tiene datos
+                        if (en.Code == codigoActual && productoAnterior != null)  // Comprobamos que productoAnterior tiene datos
                         {
-                            en.code = productoAnterior.code;
-                            en.name = productoAnterior.name;
-                            en.amount = productoAnterior.amount;
-                            en.price = productoAnterior.price;
-                            en.category = productoAnterior.category;
-                            en.creationDate = productoAnterior.creationDate;
+                            en.Code = productoAnterior.Code;
+                            en.Name = productoAnterior.Name;
+                            en.Amount = productoAnterior.Amount;
+                            en.Price = productoAnterior.Price;
+                            en.Category = productoAnterior.Category;
+                            en.CreationDate = productoAnterior.CreationDate;
                             productoLeido = true;
                             break;  // Salimos del bucle si encontramos el producto anterior
                         }
@@ -324,12 +324,12 @@ namespace library
                         // Guardamos la información del producto actual en `productoAnterior`
                         productoAnterior = new ENProduct
                         {
-                            code = codigoActual,
-                            name = lectorDatos["name"].ToString(),
-                            amount = Convert.ToInt32(lectorDatos["amount"]),
-                            price = Convert.ToSingle(lectorDatos["price"]),
-                            category = lectorDatos["category"] != DBNull.Value ? Convert.ToInt32(lectorDatos["category"]) : 0,
-                            creationDate = Convert.ToDateTime(lectorDatos["creationDate"])
+                            Code = codigoActual,
+                            Name = lectorDatos["name"].ToString(),
+                            Amount = Convert.ToInt32(lectorDatos["amount"]),
+                            Price = Convert.ToSingle(lectorDatos["price"]),
+                            Category = lectorDatos["category"] != DBNull.Value ? Convert.ToInt32(lectorDatos["category"]) : 0,
+                            CreationDate = Convert.ToDateTime(lectorDatos["creationDate"])
                         };
                     }
                 }

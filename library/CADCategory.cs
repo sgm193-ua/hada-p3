@@ -29,17 +29,17 @@ namespace library
                 conexionBaseDatos = new SqlConnection(constring);
                 conexionBaseDatos.Open();
 
-                string consultaSql = "SELECT * FROM [dbo].[Categories] WHERE id = '" + en.id + "'";
+                string consultaSql = "SELECT * FROM [dbo].[Categories] WHERE id = '" + en.Id + "'";
 
                 SqlCommand comandoSql = new SqlCommand(consultaSql, conexionBaseDatos);
                 SqlDataReader lectorDatos = comandoSql.ExecuteReader();
 
                 lectorDatos.Read();
 
-                if (int.Parse(lectorDatos["id"].ToString()) == en.id)
+                if (int.Parse(lectorDatos["id"].ToString()) == en.Id)
                 {
-                    en.id = int.Parse(lectorDatos["id"].ToString());
-                    en.name = lectorDatos["name"].ToString();
+                    en.Id = int.Parse(lectorDatos["id"].ToString());
+                    en.Name = lectorDatos["name"].ToString();
                     resultadoLectura = true;
                 }
 
@@ -76,8 +76,8 @@ namespace library
                 while (lectorDatos.Read())
                 {
                     ENCategory categoria = new ENCategory();
-                    categoria.id = int.Parse(lectorDatos["id"].ToString());
-                    categoria.name = lectorDatos["name"].ToString();
+                    categoria.Id = int.Parse(lectorDatos["id"].ToString());
+                    categoria.Name = lectorDatos["name"].ToString();
 
                     listaCategorias.Add(categoria);
                 }
