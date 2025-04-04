@@ -278,7 +278,7 @@ namespace proWeb
                 }
                 else
                 {
-                    throw new ProductException($"No se encontró un producto con el Code {txtCode.Text}.");
+                    throw new ProductException($"No se encontró un producto con el Code {textCode.Text}.");
                 }
             }
             catch (ProductException ex)

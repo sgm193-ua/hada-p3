@@ -50,5 +50,9 @@ namespace library
         public bool ReadNext() => new CADProduct().ReadNext(this);
         public bool ReadPrev() => new CADProduct().ReadPrev(this);
         public bool validCategory() => new CADProduct().CategoryExists(this.Category);
+
+        public bool existe() {
+            return this.Read();
+        }
     }
 }
