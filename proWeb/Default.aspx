@@ -34,6 +34,9 @@
 <br />
 <label>Creation Date </label> <asp:TextBox ID="textDate" runat="server"> </asp:TextBox>
 
+<br/>
+<br/>
+
 <asp:Button Text="Leer" OnClick="onLeer" ID="buttom_Leer" runat="server" />
 <asp:Button Text="Leer Primero" OnClick="onPrimero" ID="buttom_Primero" runat="server" />
 <asp:Button Text="Leer Anterior" OnClick="onAnterior" ID="buttom_Anterior" runat="server" />
@@ -41,4 +44,5 @@
 <asp:Button Text="Crear" OnClick="onCrear" ID="buttom_Crear" runat="server" />
 <asp:Button Text="Actualizar" OnClick="onActualizar" ID="buttom_Actualizar" runat="server" />
 <asp:Button Text="Borrar" OnClick="onBorrar" ID="buttom_Borrar" runat="server" />
+
 </asp:Content>
